@@ -1,4 +1,5 @@
-﻿using LAZConverter.Models;
+﻿using LAZConverter.Contracts;
+using LAZConverter.Models;
 using LAZConverter.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,7 +90,7 @@ public class Application
         DisplayConfiguration();
 
         // Ensure directories exist
-        _directoryService.EnsureDirectoriesExist();
+        _directoryService.EnsureDirectoryExists();
 
         // Clean up temporary files from previous runs
         _directoryService.CleanupTempDirectory();
@@ -135,7 +136,7 @@ public class Application
         Console.WriteLine($"  Output Directory: {_appSettings.OutputDirectory}");
         Console.WriteLine($"  PotreeConverter Path: {_appSettings.PotreeConverterPath}");
         Console.WriteLine($"  Chunk Size: {_appSettings.ChunkSizeMB}MB");
-        Console.WriteLine($"  Max Concurrent Processes: {_appSettings.MaxConcurrentProcesses}");
+        Console.WriteLine($"  Max Concurrent Processes: {_appSettings.MaxConcurrentProcess}");
         Console.WriteLine($"  Temp Directory: {_appSettings.TempDirectory}");
         Console.WriteLine();
     }
@@ -146,7 +147,7 @@ public class Application
         Console.WriteLine("----------------------------------------");
 
         var startTime = DateTime.UtcNow;
-        var results = await _fileProcessorService.ConvertMultipleFilesAsync(lazFiles);
+        var results = await _fileProcessorService.ConvertMultipleLazFileAsync(lazFiles);
         var endTime = DateTime.UtcNow;
 
         DisplayResults(results, endTime - startTime);
@@ -177,7 +178,7 @@ public class Application
             Console.WriteLine("----------------------------------------");
 
             var startTime = DateTime.UtcNow;
-            var results = await _fileProcessorService.ConvertMultipleFilesAsync(filesToProcess);
+            var results = await _fileProcessorService.ConvertMultipleLazFileAsync(filesToProcess);
             var endTime = DateTime.UtcNow;
 
             DisplayResults(results, endTime - startTime);
