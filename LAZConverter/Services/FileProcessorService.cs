@@ -161,7 +161,7 @@ namespace LAZConverter.Services
                     TempFilePath = Path.Combine(_appSettings.TempDirectory, $"chunk_{chunkIndex:D3}_{Guid.NewGuid():N}.laz")
                 };
                 chunks.Add(chunk);
-                currentPosition += endPosition + 1;
+                currentPosition = endPosition + 1;
                 chunkIndex++;
             }
             return chunks;
